@@ -64,6 +64,11 @@ const routes: Array<RouteConfig> = [
       },
     ],
   },
+  {
+    path: '/success',
+    name: 'LoginSuccess',
+    component: () => import('../views/LoginSuccess.vue'),
+  },
 ];
 
 const router = new VueRouter({
