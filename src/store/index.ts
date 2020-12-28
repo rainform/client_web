@@ -12,6 +12,7 @@ export default new Vuex.Store({
     longevity: [] as LongevityBoard[],
     prayFor: [] as PrayBoards[],
     ceremony: [] as AttendInfo[],
+    homepageRoute: '/success',
   },
   mutations: {
     updatePersonalInformation(state, object) {

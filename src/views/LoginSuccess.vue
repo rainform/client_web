@@ -9,12 +9,17 @@
     <hr>
     <pre>{{user}}</pre>
     <button @click='logout'>Log out</button>
+
+    <button @click='initMe'>init me</button>
+
+    <button @click='uploadProfile'>Upload my profile</button>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import firebase from 'firebase';
+import UserApi from '@/apis/UserApi';
 
 export default Vue.extend({
   name: 'LoginSuccess',
@@ -41,6 +46,29 @@ export default Vue.extend({
   methods: {
     logout() {
       firebase.auth().signOut();
+    },
+    initMe() {
+      UserApi.initUser({
+        uid: this.userId,
+        displayName: this.name,
+        email: this.email,
+        photoURL: this.photo,
+      });
+    },
+    uploadProfile() {
+      const db = firebase.firestore();
+      db.collection('users').doc(this.userId).set({
+        name: this.name,
+        photoURL: this.photo,
+        email: this.email,
+        owner: this.userId,
+      })
+        .then(() => {
+          console.log('update ok');
+        })
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+        });
     },
   },
 });

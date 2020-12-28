@@ -24,9 +24,10 @@ new Vue({
   store,
   created() {
     firebase.initializeApp(firebaseConfig);
+    firebase.auth().languageCode = 'zh-TW';
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.$router.push('/success');
+        this.$router.push(this.$store.state.homepageRoute);
       } else {
         this.$router.push('/login');
       }
