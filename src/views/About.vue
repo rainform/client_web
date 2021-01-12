@@ -1,5 +1,5 @@
 <template>
-  <div class="about" style="text-align: left;">
+  <div class="about">
     <h1>This is a form.</h1>
     <Personal :personal="personalInformation"/>
     <Longevity :longevity="longevity"/>
