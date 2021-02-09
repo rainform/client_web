@@ -4,7 +4,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    'plugin:vue/essential',
+    'plugin:vue/recommended',
     '@vue/airbnb',
     '@vue/typescript/recommended',
   ],
@@ -17,14 +17,10 @@ module.exports = {
     'linebreak-style': 'off',
     'max-len': 'off',
     'vue/max-attributes-per-line': 'off',
-    'max-classes-per-file': 'off',
   },
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)',
-      ],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
         jest: true,
       },

@@ -1,35 +1,42 @@
 <template>
   <div class="longevity">
-    <h2>長生祿位登記</h2>
-    <div>
-      (需要加一個可以input的格子)
-    </div>
-    <div class="container" v-for="(item, key) in longevity" :key="key" type="text">
+    <h2>STEP2 長生祿位登記</h2>
+    <div class="container">
       <form>
-        <div class="input-group">
-          <label>長生祿位</label>
-          <input id="longevity_name" type="text" v-model="item.name">
+        <div v-for="(item, key) in longevity" :key="key" class="input-group" type="text">
+          <label for="longevity_name">長生祿位<span v-if="longevity.length > 1"> - {{ key+1 }}</span></label>
+          <input id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
+          <button v-if="key+1 === longevity.length" @click="addPerson">
+            增加
+          </button>
         </div>
       </form>
-      <form>
-        <div class="input-group">
-          <label for="longevity_name">長生祿位</label>
-          <input id="longevity_name" type="text" v-model="item.name">
-        </div>
-      </form>
-      <div class="check-panel">
+      <!-- <div class="check-panel">
         <table>
-          <tr>
-            <td>長生祿位</td>
+          <tr v-for="(item, key) in longevity" :key="key" type="text">
+            <td>長生祿位<span v-if="longevity.length > 1">{{key+1}}</span></td>
             <td>{{item.name}}</td>
           </tr>
         </table>
+      </div> -->
+    </div>
+    <div class="btn-group">
+      <div>
+        <a class="btn btn-secondary" @click.prevent="changeStep('personal')">
+          上一步
+        </a>
+      </div>
+      <div>
+        <a class="btn btn-primary" @click.prevent="changeStep('prayFor')">
+          下一步
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { LongevityBoard } from '@/models/CeremonyFormModel';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -39,24 +46,87 @@ export default Vue.extend({
       default: () => ([
       ]),
     },
+    info: {
+      type: Object,
+      default: () => ({
+        onStep: '',
+      }),
+    },
   },
   data() {
     return {
+      // longevity: [
+      //   new LongevityBoard(''),
+      // ],
     };
+  },
+  methods: {
+    addPerson() {
+      this.longevity.push(new LongevityBoard(''));
+    },
+    changeStep(name: string) {
+      this.info.onStep = name;
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.longevity{
+  h2{
+    padding: 20px;
+    margin: 0;
+  }
+  form{
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    .input-group{
+      position: relative;
+      margin-bottom: 20px;
+      label{
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: left;
+        font-weight: 700;
+      }
+      input{
+        width: 100%;
+        border: 0;
+        background-color: #eee;
+        border-radius: 5px;
+        padding: 3px 10px;
+        &:focus{
+          outline: none;
+        }
+      }
+      button{
+        position: absolute;
+        bottom: 0;
+        right: -70px;
+        font-weight: 700;
+        width: 60px;
+        background-color: #eee;
+        border: 0;
+        border-radius: 50px;
+        padding: 3px 0;
+        &:focus{
+          outline: none;
+        }
+        &:hover{
+          background-color: #ddd;
+        }
+      }
+    }
+  }
+  .btn-group{
+    display: flex;
+    justify-content: space-between;
+  }
+}
 
 .container{
   position: relative;
-  .input-group{
-    margin-bottom: 20px;
-    label{
-      width: 100px;
-    }
-  }
   .check-panel{
     background-color: rgb(255, 240, 197);
     position: absolute;

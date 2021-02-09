@@ -1,121 +1,121 @@
 <template>
   <div class="personalInformation">
-    <h2>個人基本資料</h2>
+    <h2>STEP1 個人基本資料</h2>
     <div class="container">
       <form>
         <div class="input-group">
           <label for="personal_name">填表人姓名</label>
-          <input id="personal_name" type="text" v-model="personal.name">
+          <input id="personal_name" v-model="personal[0].name" type="text" placeholder="請填寫您的姓名">
         </div>
         <div class="input-group">
           <label for="personal_address">地址</label>
-          <input id="personal_address" type="text" v-model="personal.address">
+          <input id="personal_address" v-model="personal[0].address" type="text" placeholder="請填寫您的地址">
         </div>
         <div class="input-group">
           <label for="personal_phone">行動電話</label>
-          <input id="personal_phone" type="text" v-model="personal.phone">
+          <input id="personal_phone" v-model="personal[0].phone" type="text" placeholder="請填寫您的行動電話">
         </div>
         <div class="input-group">
           <label for="personal_telephone">電話</label>
-          <input id="personal_telephone" type="text" v-model="personal.telephone">
+          <input id="personal_telephone" v-model="personal[0].telephone" type="text" placeholder="請填寫您的電話">
         </div>
         <div class="input-group">
           <label for="personal_email">E-mail</label>
-          <input id="personal_email" type="text" v-model="personal.email">
+          <input id="personal_email" v-model="personal[0].email" type="text" placeholder="請填寫您的E-mail">
         </div>
         <div class="input-group">
           <label for="personal_line">Line</label>
-          <input id="personal_line" type="text" v-model="personal.line">
+          <input id="personal_line" v-model="personal[0].line" type="text" placeholder="請填寫您的Line">
         </div>
         <div class="input-group">
           <label for="personal_wechat">Wechat</label>
-          <input id="personal_wechat" type="text" v-model="personal.wechat">
+          <input id="personal_wechat" v-model="personal[0].wechat" type="text" placeholder="請填寫您的Wechat">
         </div>
       </form>
-      <div class="check-panel">
-        <table>
-          <tr>
-            <td>name</td>
-            <td>{{personal.name}}</td>
-          </tr>
-          <tr>
-            <td>address</td>
-            <td>{{personal.address}}</td>
-          </tr>
-          <tr>
-            <td>phone</td>
-            <td>{{personal.phone}}</td>
-          </tr>
-          <tr>
-            <td>telephone</td>
-            <td>{{personal.telephone}}</td>
-          </tr>
-          <tr>
-            <td>email</td>
-            <td>{{personal.email}}</td>
-          </tr>
-          <tr>
-            <td>line</td>
-            <td>{{personal.line}}</td>
-          </tr>
-          <tr>
-            <td>wechat</td>
-            <td>{{personal.wechat}}</td>
-          </tr>
-        </table>
+    </div>
+    <div class="btn-group">
+      <div>
+        <a class="btn btn-primary" @click.prevent="changeStep('longevity')">
+          下一步
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { PersonalInformation } from '@/models/CeremonyFormModel';
 import Vue from 'vue';
 
 export default Vue.extend({
   props: {
-    personal: {
+    // personal: {
+    //   type: Object,
+    //   default: () => ({
+    //     name: '',
+    //     address: '',
+    //     phone: '',
+    //     telephone: '',
+    //     email: '',
+    //     line: '',
+    //     wechat: '',
+    //   }),
+    // },
+    info: {
       type: Object,
       default: () => ({
-        name: '',
-        address: '',
-        phone: '',
-        telephone: '',
-        email: '',
-        line: '',
-        wechat: '',
+        onStep: '',
       }),
     },
   },
   data() {
     return {
+      personal: [
+        new PersonalInformation('', '', '', '', '', '', ''),
+      ],
     };
+  },
+  methods: {
+    changeStep(name: string) {
+      this.info.onStep = name;
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
-
-.container{
-  position: relative;
-  .input-group{
-    margin-bottom: 20px;
-    label{
-      width: 100px;
+.personalInformation{
+  h2{
+    padding: 20px;
+    margin: 0;
+  }
+  form{
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    .input-group{
+      margin-bottom: 20px;
+      label{
+        width: 100%;
+        margin-bottom: 10px;
+        text-align: left;
+        font-weight: 700;
+      }
+      input{
+        width: 100%;
+        border: 0;
+        background-color: #eee;
+        border-radius: 5px;
+        padding: 3px 10px;
+        &:focus{
+          outline: none;
+        }
+      }
     }
   }
-  .check-panel{
-    background-color: rgb(255, 240, 197);
-    position: absolute;
-    top: 0;
-    right: 0;
-    table, td{
-      border: 1px solid rgb(100, 100, 100);
-    }
-    td{
-      text-align: left;
-      padding: 5px;
-      width: 100px;
-    }
+  .btn-group{
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
