@@ -1,55 +1,30 @@
 <template>
   <div class="checkForm">
     <h2>STEP5 確認完整資料</h2>
-    <!-- <div class="check-panel">
-      <table>
-        <tr>
-          <td>name</td>
-          <td>{{ personal[0].name }}</td>
-        </tr>
-        <tr>
-          <td>address</td>
-          <td>{{ personal[0].address }}</td>
-        </tr>
-        <tr>
-          <td>phone</td>
-          <td>{{ personal[0].phone }}</td>
-        </tr>
-        <tr>
-          <td>telephone</td>
-          <td>{{ personal[0].telephone }}</td>
-        </tr>
-        <tr>
-          <td>email</td>
-          <td>{{ personal[0].email }}</td>
-        </tr>
-        <tr>
-          <td>line</td>
-          <td>{{ personal[0].line }}</td>
-        </tr>
-        <tr>
-          <td>wechat</td>
-          <td>{{ personal[0].wechat }}</td>
-        </tr>
-      </table>
-    </div> -->
-    <div class="btn-group">
-      <div>
-        <router-link to="#" class="btn btn-secondary">
-          修改
-        </router-link>
-      </div>
-      <div>
-        <router-link to="#" class="btn btn-danger">
-          完成送出
-        </router-link>
-      </div>
+    <div>
+      <Personal :personal="personalInformation" :info="info" :check-mode="checkMode" />
+    </div>
+    <div>
+      <Longevity :longevity="longevity" :info="info" :check-mode="checkMode" />
+    </div>
+    <div>
+      <PrayFor :pray-for="prayFor" :info="info" :check-mode="checkMode" />
+    </div>
+    <div>
+      <Ceremony :ceremony="ceremony" :info="info" :check-mode="checkMode" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import Personal from '@/components/PersonalInformation.vue';
+import Longevity from '@/components/Longevity.vue';
+import Ceremony from '@/components/Ceremony.vue';
+import PrayFor from '@/components/PrayFor.vue';
+import {
+  AttendInfo, CeremonyForm, LongevityBoard, PersonalInformation, PrayBoards,
+} from '@/models/CeremonyFormModel';
 
 export default Vue.extend({
   // props: {
@@ -66,8 +41,31 @@ export default Vue.extend({
   //     }),
   //   },
   // },
+  components: {
+    Personal,
+    Longevity,
+    PrayFor,
+    Ceremony,
+  },
   data() {
     return {
+      info: {
+        onStep: 'personal', // 這個可能要存在vuex裡面才不會因重整而不見
+      },
+      checkMode: true,
+      personalInformation: [
+        new PersonalInformation('', '', '', '', '', '', ''),
+      ],
+      longevity: [
+        new LongevityBoard(''),
+      ],
+      prayFor: [
+        new PrayBoards('', '', ''),
+      ],
+      ceremony: [
+        new AttendInfo('', '', '', '', '', ''),
+      ],
+      form: new CeremonyForm(),
     };
   },
 });
@@ -78,10 +76,6 @@ export default Vue.extend({
   h2{
     padding: 20px;
     margin: 0;
-  }
-  .btn-group{
-    display: flex;
-    justify-content: space-between;
   }
 }
 

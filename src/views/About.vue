@@ -7,18 +7,73 @@
       <div class="ui-content">
         <div v-if="info.onStep === 'personal'">
           <Personal :personal="personalInformation" :info="info" />
+          <div class="btn-group">
+            <div>
+              <a class="btn btn-primary" @click.prevent="changeStep('longevity')">
+                下一步
+              </a>
+            </div>
+          </div>
         </div>
         <div v-if="info.onStep === 'longevity'">
           <Longevity :longevity="longevity" :info="info" />
+          <div class="btn-group">
+            <div>
+              <a class="btn btn-secondary" @click.prevent="changeStep('personal')">
+                上一步
+              </a>
+            </div>
+            <div>
+              <a class="btn btn-primary" @click.prevent="changeStep('prayFor')">
+                下一步
+              </a>
+            </div>
+          </div>
         </div>
         <div v-if="info.onStep === 'prayFor'">
           <PrayFor :pray-for="prayFor" :info="info" />
+          <div class="btn-group">
+            <div>
+              <a class="btn btn-secondary" @click.prevent="changeStep('longevity')">
+                上一步
+              </a>
+            </div>
+            <div>
+              <a class="btn btn-primary" @click.prevent="changeStep('ceremony')">
+                下一步
+              </a>
+            </div>
+          </div>
         </div>
         <div v-if="info.onStep === 'ceremony'">
           <Ceremony :ceremony="ceremony" :info="info" />
+          <div class="btn-group">
+            <div>
+              <a class="btn btn-secondary" @click.prevent="changeStep('prayFor')">
+                上一步
+              </a>
+            </div>
+            <div>
+              <a class="btn btn-primary" @click.prevent="changeStep('checkForm')">
+                下一步
+              </a>
+            </div>
+          </div>
         </div>
         <div v-if="info.onStep === 'checkForm'">
           <CheckForm :info="info" />
+          <div class="btn-group">
+            <div>
+              <router-link to="#" class="btn btn-secondary">
+                暫存
+              </router-link>
+            </div>
+            <div>
+              <router-link to="#" class="btn btn-danger">
+                完成送出
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -68,6 +123,11 @@ export default Vue.extend({
       form: new CeremonyForm(),
     };
   },
+  methods: {
+    changeStep(name: string) {
+      this.info.onStep = name;
+    },
+  },
 });
 </script>
 
@@ -90,6 +150,13 @@ export default Vue.extend({
     margin-left: 270px;
     padding: 20px;
     z-index: 0;
+    .btn-group{
+      display: flex;
+      justify-content: center;
+      .btn{
+        margin: 0 20px;
+      }
+    }
   }
 }
 </style>

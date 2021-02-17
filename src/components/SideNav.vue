@@ -134,6 +134,7 @@ i {
         &:hover {
           background: #aa999a;
           color: #fff;
+          cursor: pointer;
         }
       }
     }

@@ -1,15 +1,21 @@
 <template>
-  <div class="ceremony">
+  <div class="ceremony" :class="{'checkMode': checkMode}">
     <h2>STEP4 法會參加登記</h2>
 
     <div class="container">
       <table>
         <tr>
           <th>姓名</th>
-          <th width="80">
+          <th v-if="checkMode === false" width="80">
             性別
           </th>
-          <th width="80">
+          <th v-if="checkMode === false" width="80">
+            年齡
+          </th>
+          <th v-if="checkMode === true">
+            性別
+          </th>
+          <th v-if="checkMode === true">
             年齡
           </th>
           <th>來寺日期</th>
@@ -17,91 +23,51 @@
           <th>備註</th>
         </tr>
         <tr v-for="(item, key) in ceremony" :key="key">
-          <td><input id="ceremony_name" v-model="item.name" type="text" placeholder="姓名"></td>
           <td>
-            <select v-model="item.gender" name="genderSelection">
+            <input v-if="checkMode === false" id="ceremony_name" v-model="item.name" type="text" placeholder="姓名">
+            <p v-if="checkMode === true">
+              name{{ item.name }}
+            </p>
+          </td>
+          <td>
+            <select v-if="checkMode === false" v-model="item.gender" name="genderSelection">
               <option v-for="(selection, index) in genderSelection" :key="index" :value="selection">
                 {{ selection }}
               </option>
             </select>
+            <p v-if="checkMode === true">
+              gender{{ item.gender }}
+            </p>
           </td>
-          <td><input id="ceremony_age" v-model="item.age" type="number"></td>
-          <td><input id="ceremony_comeDate" v-model="item.comeDate" type="date"></td>
-          <td><input id="ceremony_backDate" v-model="item.backDate" type="date"></td>
-          <td><input id="ceremony_note" v-model="item.note" type="text" placeholder="備註"></td>
-          <button v-if="key+1 === ceremony.length" @click="addPerson">
+          <td>
+            <input v-if="checkMode === false" id="ceremony_age" v-model="item.age" type="number">
+            <p v-if="checkMode === true">
+              age{{ item.age }}
+            </p>
+          </td>
+          <td>
+            <input v-if="checkMode === false" id="ceremony_comeDate" v-model="item.comeDate" type="date">
+            <p v-if="checkMode === true">
+              comeDate{{ item.comeDate }}
+            </p>
+          </td>
+          <td>
+            <input v-if="checkMode === false" id="ceremony_backDate" v-model="item.backDate" type="date">
+            <p v-if="checkMode === true">
+              backDate{{ item.backDate }}
+            </p>
+          </td>
+          <td>
+            <input v-if="checkMode === false" id="ceremony_note" v-model="item.note" type="text" placeholder="備註">
+            <p v-if="checkMode === true">
+              note{{ item.note }}
+            </p>
+          </td>
+          <button v-if="key+1 === ceremony.length && checkMode === false" @click="addPerson">
             增加
           </button>
         </tr>
       </table>
-
-      <!-- <form>
-        <div class="input-group">
-          <label for="ceremony_name">姓名</label>
-          <input id="ceremony_name" type="text" v-model="item.name">
-        </div>
-        <div class="input-group">
-          <label for="ceremony_gender">性別</label>
-          <input id="ceremony_gender" type="text" v-model="item.gender">
-        </div>
-        <div class="input-group">
-          <label for="ceremony_age">年齡</label>
-          <input id="ceremony_age" type="text" v-model="item.age">
-        </div>
-        <div class="input-group">
-          <label for="ceremony_comeDate">來寺日期</label>
-          <input id="ceremony_comeDate" type="text" v-model="item.comeDate">
-        </div>
-        <div class="input-group">
-          <label for="ceremony_backDate">離寺日期</label>
-          <input id="ceremony_backDate" type="text" v-model="item.backDate">
-        </div>
-        <div class="input-group">
-          <label for="ceremony_note">備註</label>
-          <input id="ceremony_note" type="text" v-model="item.note">
-        </div>
-      </form> -->
-
-      <!-- <div class="check-panel">
-        <table>
-          <tr>
-            <td>姓名</td>
-            <td>{{item.name}}</td>
-          </tr>
-          <tr>
-            <td>性別</td>
-            <td>{{item.gender}}</td>
-          </tr>
-          <tr>
-            <td>年齡</td>
-            <td>{{item.age}}</td>
-          </tr>
-          <tr>
-            <td>來寺日期</td>
-            <td>{{item.comeDate}}</td>
-          </tr>
-          <tr>
-            <td>離寺日期</td>
-            <td>{{item.backDate}}</td>
-          </tr>
-          <tr>
-            <td>備註</td>
-            <td>{{item.note}}</td>
-          </tr>
-        </table>
-      </div> -->
-    </div>
-    <div class="btn-group">
-      <div>
-        <a class="btn btn-secondary" @click.prevent="changeStep('prayFor')">
-          上一步
-        </a>
-      </div>
-      <div>
-        <a class="btn btn-primary" @click.prevent="changeStep('checkForm')">
-          下一步
-        </a>
-      </div>
     </div>
   </div>
 </template>
@@ -123,6 +89,10 @@ export default Vue.extend({
         onStep: '',
       }),
     },
+    checkMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -138,9 +108,6 @@ export default Vue.extend({
   methods: {
     addPerson() {
       this.ceremony.push(new AttendInfo('', '男', '', '', '', ''));
-    },
-    changeStep(name: string) {
-      this.info.onStep = name;
     },
   },
 });
@@ -191,25 +158,31 @@ export default Vue.extend({
       }
     }
   }
-  .btn-group{
-    display: flex;
-    justify-content: space-between;
-  }
 }
-.container{
-  position: relative;
-  .check-panel{
-    background-color: rgb(255, 240, 197);
-    position: absolute;
-    top: 0;
-    right: 0;
-    table, td{
-      border: 1px solid rgb(100, 100, 100);
+.checkMode{
+  h2{
+    display: none;
+  }
+  table{
+    tr,th,td{
+      border: black 1px solid;
     }
-    td{
-      text-align: left;
-      padding: 5px;
-      width: 100px;
+    p{
+      margin: 0;
+    }
+  }
+  .container{
+    .input-group{
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      label{
+        margin: 0px;
+        width: 10rem;
+      }
+      p{
+        margin: 0px;
+      }
     }
   }
 }

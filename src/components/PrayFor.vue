@@ -1,5 +1,5 @@
 <template>
-  <div class="prayFor">
+  <div class="prayFor" :class="{'checkMode': checkMode}">
     <h2>STEP3 往生蓮位登記</h2>
     <div class="container">
       <table>
@@ -9,68 +9,33 @@
           <th>超薦先人姓名/地址(選填)</th>
         </tr>
         <tr v-for="(item, key) in prayFor" :key="key">
-          <td><input id="prayfor_name" v-model="item.registerName" type="text"></td>
           <td>
-            <select v-model="item.prayType" name="targetSelection">
-              <option v-for="(selection, key) in targetSelection" :key="key" :value="selection">
+            <input v-if="checkMode === false" id="prayfor_name" v-model="item.registerName" type="text">
+            <p v-if="checkMode === true">
+              姓名{{ item.registerName }}
+            </p>
+          </td>
+          <td>
+            <select v-if="checkMode === false" v-model="item.prayType" name="targetSelection">
+              <option v-for="(selection, index) in targetSelection" :key="index" :value="selection">
                 {{ selection }}
               </option>
             </select>
+            <p v-if="checkMode === true">
+              項目{{ item.prayType }}
+            </p>
           </td>
-          <td><input id="prayfor_targetAddress" v-model="item.prayDetail" type="text"></td>
-          <button v-if="key+1 === prayFor.length" @click="addPerson">
+          <td>
+            <input v-if="checkMode === false" id="prayfor_targetAddress" v-model="item.prayDetail" type="text">
+            <p v-if="checkMode === true">
+              超薦先人姓名/地址(選填){{ item.prayDetail }}
+            </p>
+          </td>
+          <button v-if="key+1 === prayFor.length && checkMode === false" @click="addPerson">
             增加
           </button>
         </tr>
       </table>
-      <!-- <form>
-        <div class="input-group">
-          <label for="prayfor_name">陽上設立人姓名</label>
-          <input id="prayfor_name" type="text" v-model="item.registerName">
-        </div>
-        <div class="input-group">
-          <label>超薦項目</label>
-          <select name="targetSelection" v-model="item.prayType">
-            <option :value="selection" v-for="(selection, key) in targetSelection" :key="key">
-              {{selection}}
-            </option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="prayfor_targetAddress">超薦先人姓名/地址</label>
-          <input id="prayfor_targetAddress" type="text" v-model="item.prayDetail">
-        </div>
-        <button v-if="key+1 === prayFor.length" @click="addPerson">增加</button>
-      </form> -->
-
-      <!-- <div class="check-panel">
-        <table>
-          <tr>
-            <td>陽上設立人姓名</td>
-            <td>{{item.registerName}}</td>
-          </tr>
-          <tr>
-            <td>超薦項目</td>
-            <td>{{item.prayType}}</td>
-          </tr>
-          <tr>
-            <td>超薦人姓名/地址</td>
-            <td>{{item.prayDetail}}</td>
-          </tr>
-        </table>
-      </div> -->
-    </div>
-    <div class="btn-group">
-      <div>
-        <a class="btn btn-secondary" @click.prevent="changeStep('longevity')">
-          上一步
-        </a>
-      </div>
-      <div>
-        <a class="btn btn-primary" @click.prevent="changeStep('ceremony')">
-          下一步
-        </a>
-      </div>
     </div>
   </div>
 </template>
@@ -92,6 +57,10 @@ export default Vue.extend({
         onStep: '',
       }),
     },
+    checkMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -111,9 +80,6 @@ export default Vue.extend({
   methods: {
     addPerson() {
       this.prayFor.push(new PrayBoards('', '冤親債主', ''));
-    },
-    changeStep(name: string) {
-      this.info.onStep = name;
     },
   },
 });
@@ -164,25 +130,32 @@ export default Vue.extend({
       }
     }
   }
-  .btn-group{
-    display: flex;
-    justify-content: space-between;
-  }
 }
-.container{
-  position: relative;
-  .check-panel{
-    background-color: rgb(255, 240, 197);
-    position: absolute;
-    top: 0;
-    right: 0;
-    table, td{
-      border: 1px solid rgb(100, 100, 100);
+
+.checkMode{
+  h2{
+    display: none;
+  }
+  table{
+    tr,th,td{
+      border: black 1px solid;
     }
-    td{
-      text-align: left;
-      padding: 5px;
-      width: 100px;
+    p{
+      margin: 0;
+    }
+  }
+  .container{
+    .input-group{
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      label{
+        margin: 0px;
+        width: 10rem;
+      }
+      p{
+        margin: 0px;
+      }
     }
   }
 }

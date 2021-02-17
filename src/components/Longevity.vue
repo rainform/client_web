@@ -1,36 +1,19 @@
 <template>
-  <div class="longevity">
+  <div class="longevity" :class="{'checkMode': checkMode}">
     <h2>STEP2 長生祿位登記</h2>
     <div class="container">
       <form>
         <div v-for="(item, key) in longevity" :key="key" class="input-group" type="text">
           <label for="longevity_name">長生祿位<span v-if="longevity.length > 1"> - {{ key+1 }}</span></label>
-          <input id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
-          <button v-if="key+1 === longevity.length" @click="addPerson">
+          <input v-if="checkMode === false" id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
+          <button v-if="key+1 === longevity.length && checkMode === false" @click="addPerson">
             增加
           </button>
+          <p v-if="checkMode === true">
+            人名{{ item.name }}
+          </p>
         </div>
       </form>
-      <!-- <div class="check-panel">
-        <table>
-          <tr v-for="(item, key) in longevity" :key="key" type="text">
-            <td>長生祿位<span v-if="longevity.length > 1">{{key+1}}</span></td>
-            <td>{{item.name}}</td>
-          </tr>
-        </table>
-      </div> -->
-    </div>
-    <div class="btn-group">
-      <div>
-        <a class="btn btn-secondary" @click.prevent="changeStep('personal')">
-          上一步
-        </a>
-      </div>
-      <div>
-        <a class="btn btn-primary" @click.prevent="changeStep('prayFor')">
-          下一步
-        </a>
-      </div>
     </div>
   </div>
 </template>
@@ -52,6 +35,10 @@ export default Vue.extend({
         onStep: '',
       }),
     },
+    checkMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -63,9 +50,6 @@ export default Vue.extend({
   methods: {
     addPerson() {
       this.longevity.push(new LongevityBoard(''));
-    },
-    changeStep(name: string) {
-      this.info.onStep = name;
     },
   },
 });
@@ -119,26 +103,26 @@ export default Vue.extend({
       }
     }
   }
-  .btn-group{
-    display: flex;
-    justify-content: space-between;
-  }
 }
 
-.container{
-  position: relative;
-  .check-panel{
-    background-color: rgb(255, 240, 197);
-    position: absolute;
-    top: 0;
-    right: 0;
-    table, td{
-      border: 1px solid rgb(100, 100, 100);
-    }
-    td{
-      text-align: left;
-      padding: 5px;
-      width: 100px;
+.checkMode{
+  h2{
+    display: none;
+  }
+  .container{
+    .input-group{
+      border: black 1px solid;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: row;
+      label{
+        border-right: black 1px solid;
+        margin: 0px;
+        width: 10rem;
+      }
+      p{
+        margin: 0px;
+      }
     }
   }
 }
