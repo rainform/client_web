@@ -13,7 +13,39 @@ const routes: Array<RouteConfig> = [
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import('../views/About.vue'),
+  },
+  {
+    path: '/form',
+    name: 'Form',
+    component: () => import('../views/Form.vue'),
+    children: [
+      {
+        path: 'personalInformation',
+        name: 'PersonalInformation',
+        component: () => import('../components/PersonalInformation.vue'),
+      },
+      {
+        path: 'longevity',
+        name: 'Longevity',
+        component: () => import('../components/Longevity.vue'),
+      },
+      {
+        path: 'prayFor',
+        name: 'PrayFor',
+        component: () => import('../components/PrayFor.vue'),
+      },
+      {
+        path: 'ceremony',
+        name: 'Ceremony',
+        component: () => import('../components/Ceremony.vue'),
+      },
+      {
+        path: 'checkForm',
+        name: 'CheckForm',
+        component: () => import('../components/CheckForm.vue'),
+      },
+    ],
   },
 ];
 

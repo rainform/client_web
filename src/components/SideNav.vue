@@ -6,56 +6,57 @@
     <div class="sidebar">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link after" @click.prevent="changeStep('personal')">
+          <router-link to="personalInformation" class="nav-link after">
             STEP1 個人基本資料
-          </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link after" @click.prevent="changeStep('longevity')">
+          <router-link to="longevity" class="nav-link after">
             STEP2 長生祿位登記
-          </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link after" @click.prevent="changeStep('prayFor')">
+          <router-link to="prayFor" class="nav-link after">
             STEP3 往生蓮位登記
-          </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link after" @click.prevent="changeStep('ceremony')">
+          <router-link to="ceremony" class="nav-link after">
             STEP4 法會參加登記
-          </a>
+          </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link after" @click.prevent="changeStep('checkForm')">
+          <router-link to="checkForm" class="nav-link after">
             STEP5 確認完整資料
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>
+    <div class="side-nav-block" />
     <!-- <div class="sidebar">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <router-link class="nav-link after" to="personal">
+          <router-link to="personalInformation" class="nav-link after">
             STEP1 個人基本資料
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link after" to="longevity">
+          <router-link to="longevity" class="nav-link after">
             STEP2 長生祿位登記
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link after" to="prayfor">
+          <router-link to="prayFor" class="nav-link after">
             STEP3 往生蓮位登記
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link after" to="ceremony">
+          <router-link to="ceremony" class="nav-link after">
             STEP4 法會參加登記
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link after" to="checkForm">
+          <router-link to="checkForm" class="nav-link after">
             STEP5 確認完整資料
           </router-link>
         </li>
@@ -82,11 +83,6 @@ export default Vue.extend({
   data() {
     return {
     };
-  },
-  methods: {
-    changeStep(name: string) {
-      this.info.onStep = name;
-    },
   },
 });
 </script>
@@ -127,21 +123,28 @@ i {
         font-size: 1.1em;
         font-weight: 700;
         text-decoration: none;
-        color:#000;
+        color:#aaa;
         .fas {
           padding-right: 10px;
         }
-        &:hover {
-          background: #aa999a;
-          color: #fff;
-          cursor: pointer;
-        }
+        // &:hover {
+        //   background: #aa999a;
+        //   color: #fff;
+        //   cursor: pointer;
+        // }
       }
     }
     .active{
-      background: #aa999a;
-      color: #fff;
+      background: #c7b5b6;
+      color: #000;
     }
+  }
+  .side-nav-block{
+    position: absolute;
+    background-color: transparent;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

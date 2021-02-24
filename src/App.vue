@@ -5,7 +5,10 @@
         Home
       </router-link> |
       <router-link to="/about">
-        About
+        v-if控制
+      </router-link> |
+      <router-link to="/form/personalInformation">
+        Form
       </router-link>
     </div>
     <router-view />

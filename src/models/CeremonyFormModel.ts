@@ -1,5 +1,6 @@
 // --------------- type model interface 抽象的名詞
 
+// eslint-disable-next-line max-classes-per-file
 export interface PersonalInformationModel {
   name: string;
   address: string;
