@@ -4,8 +4,8 @@
       <router-link to="/">
         Home
       </router-link> |
-      <router-link to="/about">
-        v-if控制
+      <router-link to="/loginPage">
+        Login
       </router-link> |
       <router-link to="/form/personalInformation">
         Form

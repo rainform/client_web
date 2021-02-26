@@ -100,7 +100,7 @@
         <a class="btn btn-primary" @click="saveInfo('next')">
           下一步
         </a>
-        <a class="btn p-0 m-0" @click="saveInfo('next')">
+        <a class="btn p-0 m-0" @click="pass">
           略過
         </a>
       </div>
@@ -158,6 +158,9 @@ export default Vue.extend({
       if (move === 'next') {
         this.$router.push('checkForm');
       }
+    },
+    pass() {
+      this.$router.push('checkForm');
     },
   },
 });

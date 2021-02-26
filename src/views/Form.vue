@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="form">
     <div class="layout">
       <div class="ui-side-nav">
         <SideNav />

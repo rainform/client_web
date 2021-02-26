@@ -4,7 +4,7 @@
     <div class="container">
       <form>
         <div v-for="(item, key) in longevity" :key="key" class="input-group" type="text">
-          <label for="longevity_name">長生祿位<span v-if="longevity.length > 1">{{ key+1 }}</span></label>
+          <label for="longevity_name">長生祿位</label>
           <input v-if="checkMode === false" id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
           <button v-if="key+1 === longevity.length && checkMode === false" @click="addPerson">
             增加
@@ -35,7 +35,7 @@
         <a class="btn btn-primary" @click="saveInfo('next')">
           下一步
         </a>
-        <a class="btn p-0 m-0" @click="saveInfo('next')">
+        <a class="btn p-0 m-0" @click="pass">
           略過
         </a>
       </div>
@@ -86,6 +86,9 @@ export default Vue.extend({
       if (move === 'next') {
         this.$router.push('prayFor');
       }
+    },
+    pass() {
+      this.$router.push('prayFor');
     },
   },
 });
