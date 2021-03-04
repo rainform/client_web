@@ -4,7 +4,11 @@
 
     <div class="container">
       <form v-if="checkMode === false">
-        <div v-for="(item, key) in ceremony" :key="key" class="item-object">
+        <div class="checkbox-input">
+          <input id="ceremony_none" v-model="notRegistered" type="checkbox">
+          <label for="ceremony_none">不參加</label>
+        </div>
+        <div v-for="(item, key) in ceremony" :key="key" class="item-object" :class="{'not-registered': notRegistered}">
           <div class="input-group" type="text">
             <label for="ceremony_name">姓名</label>
             <input id="ceremony_name" v-model="item.name" type="text" placeholder="姓名">
@@ -47,7 +51,10 @@
       </form>
 
       <table v-if="checkMode === true">
-        <tr>
+        <tr v-if="ceremonyX.length > 0 && ceremonyX[0].name === ''">
+          <th>不參加</th>
+        </tr>
+        <tr v-if="ceremonyX.length > 0 && ceremonyX[0].name !== ''">
           <th>姓名</th>
           <th>性別</th>
           <th>年齡</th>
@@ -55,8 +62,26 @@
           <th>離寺日期</th>
           <th>備註</th>
         </tr>
-        <tr v-for="(item, key) in ceremony" :key="key">
-          <td v-if="ceremonyX.length > 0">
+        <tr v-for="(item, key) in ceremonyX" :key="key">
+          <td>
+            {{ item.name }}
+          </td>
+          <td>
+            {{ item.gender }}
+          </td>
+          <td>
+            {{ item.age }}
+          </td>
+          <td>
+            {{ item.comeDate }}
+          </td>
+          <td>
+            {{ item.backDate }}
+          </td>
+          <td>
+            {{ item.note }}
+          </td>
+          <!-- <td v-if="ceremonyX.length > 0">
             {{ item.name }}
           </td>
           <td v-if="ceremonyX.length > 0">
@@ -73,13 +98,13 @@
           </td>
           <td v-if="ceremonyX.length > 0">
             {{ item.note }}
-          </td>
+          </td> -->
         </tr>
-        <tr v-if="ceremonyX.length === 0">
+        <!-- <tr v-if="ceremonyX.length === 0 || ceremonyX[0].gender === ''">
           <td colspan="6">
             不參加
           </td>
-        </tr>
+        </tr> -->
       </table>
     </div>
 
@@ -99,9 +124,6 @@
       <div>
         <a class="btn btn-primary" @click="saveInfo('next')">
           下一步
-        </a>
-        <a class="btn p-0 m-0" @click="pass">
-          略過
         </a>
       </div>
     </div>
@@ -128,6 +150,17 @@ export default Vue.extend({
         '男',
         '女',
       ],
+      notRegistered: false,
+      lastYearData: [
+      //   {
+      //     name: '王曉明',
+      //     gender: '男',
+      //     age: '36',
+      //     attendDate: '',
+      //     leaveDate: '',
+      //     note: '與王中明一起',
+      //   },
+      ],
     };
   },
   computed: {
@@ -142,6 +175,8 @@ export default Vue.extend({
     init() {
       if (this.ceremonyX.length > 0) {
         this.ceremony = this.ceremonyX;
+      } else if (this.lastYearData[0]) {
+        this.ceremony = this.lastYearData;
       }
     },
     deletePerson(key: number) {
@@ -151,16 +186,17 @@ export default Vue.extend({
       this.ceremony.push(new AttendInfo('', '', '', '', '', ''));
     },
     saveInfo(move: string) {
-      this.$store.commit('updateCeremony', this.ceremony);
+      if (this.notRegistered === false) {
+        this.$store.commit('updateCeremony', this.ceremony);
+      } else {
+        this.$store.commit('updateCeremony', [new AttendInfo('', '', '', '', '', '')]);
+      }
       if (move === 'last') {
         this.$router.push('prayFor');
       }
       if (move === 'next') {
         this.$router.push('checkForm');
       }
-    },
-    pass() {
-      this.$router.push('checkForm');
     },
   },
 });
@@ -177,6 +213,13 @@ export default Vue.extend({
     width: 50%;
     margin: auto;
     padding: 20px;
+    .checkbox-input{
+      margin-bottom: 20px;
+      text-align: left;
+      label{
+        margin-left: 20px;
+      }
+    }
     .input-group{
       position: relative;
       margin-bottom: 20px;
@@ -216,6 +259,17 @@ export default Vue.extend({
           background-color: #ddd;
         }
       }
+    }
+    .not-registered{
+      display: none;
+      // label, input, button {
+      //   color: #888;
+      // }
+      // button{
+      //   &:hover{
+      //     background-color: #eee;
+      //   }
+      // }
     }
   }
   table{

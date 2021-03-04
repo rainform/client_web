@@ -2,20 +2,42 @@
   <div class="longevity" :class="{'checkMode': checkMode}">
     <h2><span>STEP2</span> 長生祿位登記</h2>
     <div class="container">
-      <form>
-        <div v-for="(item, key) in longevity" :key="key" class="input-group" type="text">
+      <form v-if="checkMode === false">
+        <div class="status-remind">
+          <p>資料自動代入 (第一次登入者不適用)</p>
+        </div>
+        <div class="checkbox-input">
+          <input id="longevity_none" v-model="notRegistered" type="checkbox">
+          <label for="longevity_none">不登記</label>
+        </div>
+        <div
+          v-for="(item, key) in longevity"
+          :key="key"
+          :class="{'not-registered': notRegistered}"
+          class="input-group"
+        >
           <label for="longevity_name">長生祿位</label>
-          <input v-if="checkMode === false" id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
+          <input id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
+          <button v-if="key !== longevity.length && checkMode === false" @click.prevent="deletePerson(key)">
+            刪除
+          </button>
           <button v-if="key+1 === longevity.length && checkMode === false" @click="addPerson">
             增加
           </button>
-          <div v-if="checkMode === true">
+        </div>
+      </form>
+
+      <div v-if="checkMode === true" class="check-area">
+        <label v-if="longevityX.length > 0 && longevityX[0].name !== ''">長生祿位</label>
+        <label v-if="longevityX.length > 0 && longevityX[0].name === ''">不登記</label>
+        <div class="list">
+          <div v-for="(item, key) in longevityX" :key="key">
             <p>
               {{ item.name }}
             </p>
           </div>
         </div>
-      </form>
+      </div>
     </div>
 
     <div v-if="checkMode === true" class="btn-group-fix">
@@ -34,9 +56,6 @@
       <div>
         <a class="btn btn-primary" @click="saveInfo('next')">
           下一步
-        </a>
-        <a class="btn p-0 m-0" @click="pass">
-          略過
         </a>
       </div>
     </div>
@@ -59,6 +78,21 @@ export default Vue.extend({
       longevity: [
         new LongevityBoard(''),
       ],
+      notRegistered: false,
+      lastYearData: [
+      //   {
+      //     streamId: '',
+      //     name: '王曉明',
+      //   },
+      //   {
+      //     streamId: '',
+      //     name: '王中明',
+      //   },
+      //   {
+      //     streamId: '',
+      //     name: '王大明',
+      //   },
+      ],
     };
   },
   computed: {
@@ -73,13 +107,22 @@ export default Vue.extend({
     init() {
       if (this.longevityX.length > 0) {
         this.longevity = this.longevityX;
+      } else if (this.lastYearData[0]) {
+        this.longevity = this.lastYearData;
       }
     },
     addPerson() {
       this.longevity.push(new LongevityBoard(''));
     },
+    deletePerson(key: number) {
+      this.longevity.splice(key, 1);
+    },
     saveInfo(move: string) {
-      this.$store.commit('updateLongevity', this.longevity);
+      if (this.notRegistered === false) {
+        this.$store.commit('updateLongevity', this.longevity);
+      } else {
+        this.$store.commit('updateLongevity', [new LongevityBoard('')]);
+      }
       if (move === 'last') {
         this.$router.push('personalInformation');
       }
@@ -87,14 +130,13 @@ export default Vue.extend({
         this.$router.push('prayFor');
       }
     },
-    pass() {
-      this.$router.push('prayFor');
-    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
+$remind: rgb(204, 0, 0);
+
 .longevity{
   position: relative;
   h2{
@@ -105,6 +147,20 @@ export default Vue.extend({
     width: 50%;
     margin: auto;
     padding: 20px;
+    .checkbox-input{
+      margin-bottom: 20px;
+      text-align: left;
+      label{
+        margin-left: 20px;
+      }
+    }
+    .status-remind{
+      p{
+        text-align: left;
+        font-size: 0.8rem;
+        color: $remind;
+      }
+    }
     .input-group{
       position: relative;
       margin-bottom: 20px;
@@ -140,6 +196,33 @@ export default Vue.extend({
         &:hover{
           background-color: #ddd;
         }
+      }
+    }
+    .not-registered{
+      display: none;
+      // label, input, button {
+      //   color: #888;
+      // }
+      // button{
+      //   &:hover{
+      //     background-color: #eee;
+      //   }
+      // }
+    }
+  }
+  .check-area{
+    label{
+      width: 100%;
+      margin-bottom: 10px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .list{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      p {
+        margin-right: 20px;
       }
     }
   }

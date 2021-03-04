@@ -3,7 +3,15 @@
     <h2><span>STEP3</span> 往生蓮位登記</h2>
     <div class="container">
       <form v-if="checkMode === false">
-        <div v-for="(item, key) in prayFor" :key="key" class="item-object">
+        <div class="status-remind">
+          <p>資料自動代入 (第一次登入者不適用)</p>
+        </div>
+        <div class="checkbox-input">
+          <input id="prayfor_none" v-model="notRegistered" type="checkbox">
+          <label for="prayfor_none">不登記</label>
+        </div>
+
+        <div v-for="(item, key) in prayFor" :key="key" class="item-object" :class="{'not-registered': notRegistered}">
           <div class="input-group" type="text">
             <label for="prayfor_name">陽上設立人姓名</label>
             <input id="prayfor_name" v-model="item.registerName" type="text" placeholder="請輸入人名">
@@ -34,13 +42,25 @@
       </form>
 
       <table v-if="checkMode === true">
-        <tr>
+        <tr v-if="prayForX.length > 0 && prayForX[0].registerName === ''">
+          <th>不登記</th>
+        </tr>
+        <tr v-if="prayForX.length > 0 && prayForX[0].registerName !== ''">
           <th>陽上設立人姓名</th>
           <th>超薦項目</th>
           <th>超薦先人姓名/地址(選填)</th>
         </tr>
-        <tr v-for="(item, key) in prayFor" :key="key">
-          <td v-if="prayForX.length > 0">
+        <tr v-for="(item, key) in prayForX" :key="key">
+          <td>
+            {{ item.registerName }}
+          </td>
+          <td>
+            {{ item.prayType }}
+          </td>
+          <td>
+            {{ item.prayDetail }}
+          </td>
+          <!-- <td v-if="prayForX.length > 0">
             {{ item.registerName }}
           </td>
           <td v-if="prayForX.length > 0">
@@ -48,13 +68,13 @@
           </td>
           <td v-if="prayForX.length > 0">
             {{ item.prayDetail }}
-          </td>
+          </td> -->
         </tr>
-        <tr v-if="prayForX.length === 0">
+        <!-- <tr v-if="prayForX.length === 0 || prayForX[0].registerName === ''">
           <td colspan="6">
-            無填寫
+            不登記
           </td>
-        </tr>
+        </tr> -->
       </table>
     </div>
 
@@ -74,9 +94,6 @@
       <div>
         <a class="btn btn-primary" @click="saveInfo('next')">
           下一步
-        </a>
-        <a class="btn p-0 m-0" @click="pass">
-          略過
         </a>
       </div>
     </div>
@@ -107,6 +124,25 @@ export default Vue.extend({
         '誤殺誤傷之眾生',
         '境內一切眾生(地基主)',
       ],
+      sameAsLastYear: false,
+      notRegistered: false,
+      lastYearData: [
+      //   {
+      //     registerName: 'string',
+      //     prayType: '冤親債主',
+      //     prayDetail: 'string',
+      //   },
+      //   {
+      //     registerName: 'string',
+      //     prayType: '累世父母師長',
+      //     prayDetail: 'string',
+      //   },
+      //   {
+      //     registerName: 'string',
+      //     prayType: '境內一切眾生(地基主)',
+      //     prayDetail: 'string',
+      //   },
+      ],
     };
   },
   computed: {
@@ -121,6 +157,8 @@ export default Vue.extend({
     init() {
       if (this.prayForX.length > 0) {
         this.prayFor = this.prayForX;
+      } else if (this.lastYearData[0]) {
+        this.prayFor = this.lastYearData;
       }
     },
     deletePerson(key: number) {
@@ -130,7 +168,11 @@ export default Vue.extend({
       this.prayFor.push(new PrayBoards('', '', ''));
     },
     saveInfo(move: string) {
-      this.$store.commit('updatePrayFor', this.prayFor);
+      if (this.notRegistered === false) {
+        this.$store.commit('updatePrayFor', this.prayFor);
+      } else {
+        this.$store.commit('updatePrayFor', [new PrayBoards('', '', '')]);
+      }
       if (move === 'last') {
         this.$router.push('longevity');
       }
@@ -138,14 +180,12 @@ export default Vue.extend({
         this.$router.push('ceremony');
       }
     },
-    pass() {
-      this.$router.push('ceremony');
-    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
+$remind: rgb(204, 0, 0);
 .prayFor{
   position: relative;
   h2{
@@ -156,6 +196,20 @@ export default Vue.extend({
     width: 50%;
     margin: auto;
     padding: 20px;
+    .checkbox-input{
+      margin-bottom: 20px;
+      text-align: left;
+      label{
+        margin-left: 20px;
+      }
+    }
+    .status-remind{
+      p{
+        text-align: left;
+        font-size: 0.8rem;
+        color: $remind;
+      }
+    }
     .input-group{
       position: relative;
       margin-bottom: 20px;
@@ -195,6 +249,17 @@ export default Vue.extend({
           background-color: #ddd;
         }
       }
+    }
+    .not-registered{
+      display: none;
+      // label, input, button {
+      //   color: #888;
+      // }
+      // button{
+      //   &:hover{
+      //     background-color: #eee;
+      //   }
+      // }
     }
   }
   table{
