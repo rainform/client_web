@@ -30,13 +30,13 @@
           <div class="input-group" type="text">
             <label for="prayfor_targetAddress">超薦先人姓名/地址(選填)</label>
             <input id="prayfor_targetAddress" v-model="item.prayDetail" type="text" placeholder="請輸入人名或地址">
-            <button v-if="key !== prayFor.length" @click.prevent="deletePerson(key)">
-              刪除
-            </button>
-            <button v-if="key+1 === prayFor.length" @click.prevent="addPerson">
-              增加
-            </button>
           </div>
+          <button v-if="prayFor.length !== 1 && key !== prayFor.length" class="delete-person" @click.prevent="deletePerson(key)">
+            <i class="fas fa-times" />
+          </button>
+          <button v-if="key+1 === prayFor.length" class="add-person" @click.prevent="addPerson">
+            增加
+          </button>
           <hr>
         </div>
       </form>
@@ -60,21 +60,7 @@
           <td>
             {{ item.prayDetail }}
           </td>
-          <!-- <td v-if="prayForX.length > 0">
-            {{ item.registerName }}
-          </td>
-          <td v-if="prayForX.length > 0">
-            {{ item.prayType }}
-          </td>
-          <td v-if="prayForX.length > 0">
-            {{ item.prayDetail }}
-          </td> -->
         </tr>
-        <!-- <tr v-if="prayForX.length === 0 || prayForX[0].registerName === ''">
-          <td colspan="6">
-            不登記
-          </td>
-        </tr> -->
       </table>
     </div>
 
@@ -196,13 +182,6 @@ $remind: rgb(204, 0, 0);
     width: 50%;
     margin: auto;
     padding: 20px;
-    .checkbox-input{
-      margin-bottom: 20px;
-      text-align: left;
-      label{
-        margin-left: 20px;
-      }
-    }
     .status-remind{
       p{
         text-align: left;
@@ -210,56 +189,68 @@ $remind: rgb(204, 0, 0);
         color: $remind;
       }
     }
-    .input-group{
-      position: relative;
+    .checkbox-input{
       margin-bottom: 20px;
+      text-align: left;
       label{
-        width: 100%;
-        margin-bottom: 10px;
-        text-align: left;
-        font-weight: 700;
+        margin-left: 20px;
       }
-      input, select{
-        width: 100%;
-        border: 0;
-        background-color: #eee;
-        border-radius: 5px;
-        padding: 3px 10px;
-        &:focus{
-          outline: none;
+    }
+    .item-object{
+      position: relative;
+      .input-group{
+        margin-bottom: 20px;
+        label{
+          width: 100%;
+          margin-bottom: 10px;
+          text-align: left;
+          font-weight: 700;
         }
-      }
-      select{
-        padding: 5px 10px;
+        input, select{
+          width: 100%;
+          border: 0;
+          background-color: #eee;
+          border-radius: 5px;
+          padding: 3px 10px;
+          &:focus{
+            outline: none;
+          }
+        }
+        select{
+          padding: 5px 10px;
+        }
       }
       button{
         position: absolute;
-        bottom: 0;
-        right: -70px;
-        font-weight: 700;
-        width: 60px;
-        background-color: #eee;
-        border: 0;
-        border-radius: 50px;
-        padding: 3px 0;
+        border: none;
         &:focus{
           outline: none;
         }
+      }
+      .add-person{
+        bottom: 20px;
+        right: -70px;
+        width: 60px;
+        padding: 3px 0;
+        font-weight: 700;
+        border-radius: 50px;
+        background-color: #eee;
         &:hover{
           background-color: #ddd;
+        }
+      }
+      .delete-person{
+        top: 0px;
+        left: -40px;
+        background-color: transparent;
+        color: #aaa;
+        &:hover{
+          background-color: #eee;
         }
       }
     }
     .not-registered{
       display: none;
-      // label, input, button {
-      //   color: #888;
-      // }
-      // button{
-      //   &:hover{
-      //     background-color: #eee;
-      //   }
-      // }
     }
   }
   table{

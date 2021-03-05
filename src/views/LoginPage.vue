@@ -63,7 +63,7 @@ export default Vue.extend({
   methods: {
     login() {
       console.log('login');
-      this.$router.push('/form/personalInformation');
+      this.$router.push('/personalHomepage');
       this.userId = '';
       this.userPassword = '';
     },

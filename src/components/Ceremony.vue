@@ -39,13 +39,13 @@
           <div class="input-group" type="text">
             <label for="ceremony_note">備註</label>
             <input id="ceremony_note" v-model="item.note" type="text" placeholder="備註">
-            <button v-if="key !== ceremony.length" @click.prevent="deletePerson(key)">
-              刪除
-            </button>
-            <button v-if="key+1 === ceremony.length" @click.prevent="addPerson">
-              增加
-            </button>
           </div>
+          <button v-if="ceremony.length !== 1 && key !== ceremony.length" class="delete-person" @click.prevent="deletePerson(key)">
+            <i class="fas fa-times" />
+          </button>
+          <button v-if="key+1 === ceremony.length" class="add-person" @click.prevent="addPerson">
+            增加
+          </button>
           <hr>
         </div>
       </form>
@@ -81,30 +81,7 @@
           <td>
             {{ item.note }}
           </td>
-          <!-- <td v-if="ceremonyX.length > 0">
-            {{ item.name }}
-          </td>
-          <td v-if="ceremonyX.length > 0">
-            {{ item.gender }}
-          </td>
-          <td v-if="ceremonyX.length > 0">
-            {{ item.age }}
-          </td>
-          <td v-if="ceremonyX.length > 0">
-            {{ item.comeDate }}
-          </td>
-          <td v-if="ceremonyX.length > 0">
-            {{ item.backDate }}
-          </td>
-          <td v-if="ceremonyX.length > 0">
-            {{ item.note }}
-          </td> -->
         </tr>
-        <!-- <tr v-if="ceremonyX.length === 0 || ceremonyX[0].gender === ''">
-          <td colspan="6">
-            不參加
-          </td>
-        </tr> -->
       </table>
     </div>
 
@@ -220,56 +197,61 @@ export default Vue.extend({
         margin-left: 20px;
       }
     }
-    .input-group{
+    .item-object{
       position: relative;
-      margin-bottom: 20px;
-      label{
-        width: 100%;
-        margin-bottom: 10px;
-        text-align: left;
-        font-weight: 700;
-      }
-      input, select{
-        width: 100%;
-        border: 0;
-        background-color: #eee;
-        border-radius: 5px;
-        padding: 3px 10px;
-        &:focus{
-          outline: none;
+      .input-group{
+        margin-bottom: 20px;
+        label{
+          width: 100%;
+          margin-bottom: 10px;
+          text-align: left;
+          font-weight: 700;
         }
-      }
-      select{
-        padding: 5px 10px;
+        input, select{
+          width: 100%;
+          border: 0;
+          background-color: #eee;
+          border-radius: 5px;
+          padding: 3px 10px;
+          &:focus{
+            outline: none;
+          }
+        }
+        select{
+          padding: 5px 10px;
+        }
       }
       button{
         position: absolute;
-        bottom: 0;
-        right: -70px;
-        font-weight: 700;
-        width: 60px;
-        background-color: #eee;
-        border: 0;
-        border-radius: 50px;
-        padding: 3px 0;
+        border: none;
         &:focus{
           outline: none;
         }
+      }
+      .add-person{
+        bottom: 20px;
+        right: -70px;
+        width: 60px;
+        padding: 3px 0;
+        font-weight: 700;
+        border-radius: 50px;
+        background-color: #eee;
         &:hover{
           background-color: #ddd;
+        }
+      }
+      .delete-person{
+        top: 0px;
+        left: -40px;
+        background-color: transparent;
+        color: #aaa;
+        &:hover{
+          background-color: #eee;
         }
       }
     }
     .not-registered{
       display: none;
-      // label, input, button {
-      //   color: #888;
-      // }
-      // button{
-      //   &:hover{
-      //     background-color: #eee;
-      //   }
-      // }
     }
   }
   table{

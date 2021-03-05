@@ -25,7 +25,7 @@
         </router-link>
       </div>
       <div>
-        <router-link to="#" class="btn btn-danger">
+        <router-link to="/successful" class="btn btn-danger">
           完成送出
         </router-link>
       </div>

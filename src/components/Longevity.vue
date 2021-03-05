@@ -17,10 +17,11 @@
           class="input-group"
         >
           <label for="longevity_name">長生祿位</label>
-          <input id="longevity_name" v-model="item.name" type="text" placeholder="請輸入人名">
-          <button v-if="key !== longevity.length && checkMode === false" @click.prevent="deletePerson(key)">
-            刪除
-          </button>
+          <input id="longevity_name" v-model="item.name" class="form-control" type="text" placeholder="請輸入人名">
+          <div v-if="key !== longevity.length && checkMode === false" class="input-group-prepend">
+            <span class="input-group-text"><i v-if="longevity.length !== 1" class="fas fa-times-circle" @click.prevent="deletePerson(key)" /></span>
+          </div>
+
           <button v-if="key+1 === longevity.length && checkMode === false" @click="addPerson">
             增加
           </button>
@@ -170,14 +171,24 @@ $remind: rgb(204, 0, 0);
         text-align: left;
         font-weight: 700;
       }
-      input{
-        width: 100%;
-        border: 0;
+      .form-control, .input-group-text{
+        border:none;
         background-color: #eee;
         border-radius: 5px;
         padding: 3px 10px;
-        &:focus{
-          outline: none;
+        box-shadow: none;
+        height: auto;
+      }
+      .form-control{
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+      .input-group-text{
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        color: #aaa;
+        .fas{
+          cursor: pointer;
         }
       }
       button{
@@ -200,14 +211,6 @@ $remind: rgb(204, 0, 0);
     }
     .not-registered{
       display: none;
-      // label, input, button {
-      //   color: #888;
-      // }
-      // button{
-      //   &:hover{
-      //     background-color: #eee;
-      //   }
-      // }
     }
   }
   .check-area{
