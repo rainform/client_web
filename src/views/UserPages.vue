@@ -20,7 +20,7 @@ export default Vue.extend({
   methods: {
     logout() {
       console.log('logout');
-      this.$router.push('/loginPage');
+      this.$router.push('/');
     },
   },
 });
