@@ -65,6 +65,11 @@ const routes: Array<RouteConfig> = [
     ],
   },
   {
+    path: '/firebaseLogin',
+    name: 'FirebaseLogin',
+    component: () => import('@/views/FirebaseLogin.vue'),
+  },
+  {
     path: '/success',
     name: 'LoginSuccess',
     component: () => import('@/views/LoginSuccess.vue'),
