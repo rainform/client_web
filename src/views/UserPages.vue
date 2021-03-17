@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+import firebase from 'firebase';
 import Vue from 'vue';
 
 export default Vue.extend({
@@ -20,6 +21,7 @@ export default Vue.extend({
   methods: {
     logout() {
       console.log('logout');
+      firebase.auth().signOut();
       this.$router.push('/');
     },
   },

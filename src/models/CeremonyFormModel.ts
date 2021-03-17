@@ -58,7 +58,7 @@ export class PersonalInformation implements PersonalInformationModel {
 
   informMethod: string;
 
-  constructor(name: string, address: string, phone: string, telephone: string, email: string, line: string, wechat: string, informMethod: string) {
+  constructor(name = '', address = '', phone = '', telephone = '', email = '', line = '', wechat = '', informMethod = '') {
     this.name = name;
     this.address = address;
     this.phone = phone;

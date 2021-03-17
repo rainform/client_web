@@ -3,6 +3,7 @@ import 'mutationobserver-shim';
 import Vue from 'vue';
 import './plugins/bootstrap-vue';
 import firebase from 'firebase';
+import FormApi from './apis/FormApi';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -27,9 +28,11 @@ new Vue({
     firebase.auth().languageCode = 'zh-TW';
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        FormApi.load();
         this.$router.push(this.$store.state.homepageRoute);
       } else {
-        this.$router.push('/login');
+        this.$router.push('/firebaseLogin');
+        this.$store.commit('resetState');
       }
     });
   },

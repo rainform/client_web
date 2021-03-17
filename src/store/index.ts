@@ -5,15 +5,16 @@ import {
 } from '@/models/CeremonyFormModel';
 
 Vue.use(Vuex);
+const getDefaultState = () => ({
 
+  personalInformation: new PersonalInformation(),
+  longevity: [] as LongevityBoard[],
+  prayFor: [] as PrayBoards[],
+  ceremony: [] as AttendInfo[],
+  homepageRoute: '/personalHomepage',
+});
 export default new Vuex.Store({
-  state: {
-    personalInformation: [] as PersonalInformation[],
-    longevity: [] as LongevityBoard[],
-    prayFor: [] as PrayBoards[],
-    ceremony: [] as AttendInfo[],
-    homepageRoute: '/success',
-  },
+  state: getDefaultState(),
   mutations: {
     updatePersonalInformation(state, object) {
       state.personalInformation = object;
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     updateCeremony(state, array) {
       state.ceremony = array;
+    },
+    resetState(state) {
+      Object.assign(state, getDefaultState());
     },
   },
   actions: {

@@ -3,16 +3,22 @@
     <h1>This is LoginSuccess page</h1>
 
     <img :src="photo" style="height: 120px"> <br>
-    <p>{{name}}</p>
-    <p>{{email}}</p>
-    <p>{{userId}}</p>
+    <p>{{ name }}</p>
+    <p>{{ email }}</p>
+    <p>{{ userId }}</p>
     <hr>
-    <pre>{{user}}</pre>
-    <button @click='logout'>Log out</button>
+    <pre>{{ user }}</pre>
+    <button @click="logout">
+      Log out
+    </button>
 
-    <button @click='initMe'>init me</button>
+    <button @click="initMe">
+      init me
+    </button>
 
-    <button @click='uploadProfile'>Upload my profile</button>
+    <button @click="uploadProfile">
+      Upload my profile
+    </button>
   </div>
 </template>
 

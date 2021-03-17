@@ -10,31 +10,31 @@
         </div>
         <div class="input-group">
           <label for="personal_name">填表人姓名 <span style="color: #c51919;">*</span></label>
-          <input id="personal_name" v-model="personal[0].name" type="text" placeholder="請填寫您的姓名">
+          <input id="personal_name" v-model="personal.name" type="text" placeholder="請填寫您的姓名">
         </div>
         <div class="input-group">
           <label for="personal_address">地址 <span style="color: #c51919;">*</span></label>
-          <input id="personal_address" v-model="personal[0].address" type="text" placeholder="請填寫您的地址">
+          <input id="personal_address" v-model="personal.address" type="text" placeholder="請填寫您的地址">
         </div>
         <div class="input-group">
           <label for="personal_phone">行動電話 <span style="color: #c51919;">*</span></label>
-          <input id="personal_phone" v-model="personal[0].phone" type="text" placeholder="請填寫您的行動電話">
+          <input id="personal_phone" v-model="personal.phone" type="text" placeholder="請填寫您的行動電話">
         </div>
         <div class="input-group">
           <label for="personal_telephone">電話</label>
-          <input id="personal_telephone" v-model="personal[0].telephone" type="text" placeholder="請填寫您的電話">
+          <input id="personal_telephone" v-model="personal.telephone" type="text" placeholder="請填寫您的電話">
         </div>
         <div class="input-group">
           <label for="personal_email">E-mail</label>
-          <input id="personal_email" v-model="personal[0].email" type="text" placeholder="請填寫您的E-mail">
+          <input id="personal_email" v-model="personal.email" type="text" placeholder="請填寫您的E-mail">
         </div>
         <div class="input-group">
           <label for="personal_line">Line</label>
-          <input id="personal_line" v-model="personal[0].line" type="text" placeholder="請填寫您的Line">
+          <input id="personal_line" v-model="personal.line" type="text" placeholder="請填寫您的Line">
         </div>
         <div class="input-group">
           <label for="personal_wechat">Wechat</label>
-          <input id="personal_wechat" v-model="personal[0].wechat" type="text" placeholder="請填寫您的Wechat">
+          <input id="personal_wechat" v-model="personal.wechat" type="text" placeholder="請填寫您的Wechat">
         </div>
         <div class="input-group">
           <label for="personal_informMethod">下次活動通知方式</label>
@@ -50,55 +50,53 @@
       </form>
 
       <form v-if="checkMode === true">
-        <div v-for="(item, key) in personalX" :key="key">
-          <div class="input-group">
-            <label for="personal_name">填表人姓名 </label>
-            <p>
-              {{ item.name }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_address">地址 </label>
-            <p>
-              {{ item.address }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_phone">行動電話 </label>
-            <p>
-              {{ item.phone }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_telephone">電話</label>
-            <p>
-              {{ item.telephone }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_email">E-mail</label>
-            <p>
-              {{ item.email }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_line">Line</label>
-            <p>
-              {{ item.line }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_wechat">Wechat</label>
-            <p>
-              {{ item.wechat }}
-            </p>
-          </div>
-          <div class="input-group">
-            <label for="personal_informMethod">下次活動通知方式</label>
-            <p>
-              {{ item.informMethod }}
-            </p>
-          </div>
+        <div class="input-group">
+          <label for="personal_name">填表人姓名 </label>
+          <p>
+            {{ personal.name }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_address">地址 </label>
+          <p>
+            {{ personal.address }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_phone">行動電話 </label>
+          <p>
+            {{ personal.phone }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_telephone">電話</label>
+          <p>
+            {{ personal.telephone }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_email">E-mail</label>
+          <p>
+            {{ personal.email }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_line">Line</label>
+          <p>
+            {{ personal.line }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_wechat">Wechat</label>
+          <p>
+            {{ personal.wechat }}
+          </p>
+        </div>
+        <div class="input-group">
+          <label for="personal_informMethod">下次活動通知方式</label>
+          <p>
+            {{ personal.informMethod }}
+          </p>
         </div>
       </form>
 
@@ -122,6 +120,7 @@
 </template>
 
 <script lang="ts">
+import FormApi from '@/apis/FormApi';
 import { PersonalInformation } from '@/models/CeremonyFormModel';
 import Vue from 'vue';
 
@@ -134,9 +133,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      personal: [
-        new PersonalInformation('', '', '', '', '', '', '', ''),
-      ],
+      personal: new PersonalInformation(),
       informMethod: [
         '手機簡訊',
         'E-mail信箱',
@@ -144,34 +141,14 @@ export default Vue.extend({
         'Wechat群組',
         '郵寄紙本',
       ],
-      lastYearData: [
-      //   {
-      //     name: '王曉明',
-      //     address: '新竹市中華路123號',
-      //     phone: '0912345678',
-      //     telephone: 'sdfsdf',
-      //     email: 'ming@gmail.com',
-      //     line: 'mingming',
-      //     wechat: 'mingming',
-      //   },
-      ],
     };
-  },
-  computed: {
-    personalX(): PersonalInformation[] {
-      return this.$store.state.personalInformation;
-    },
   },
   mounted() {
     this.init();
   },
   methods: {
     init() {
-      if (this.personalX.length > 0) {
-        this.personal = this.personalX;
-      } else if (this.lastYearData[0]) {
-        this.personal = this.lastYearData;
-      }
+      this.personal = this.$store.state.personalInformation;
     },
     saveInfo(move: string) {
       this.$store.commit('updatePersonalInformation', this.personal);

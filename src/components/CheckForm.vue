@@ -20,14 +20,14 @@
     <hr>
     <div class="btn-group">
       <div>
-        <router-link to="#" class="btn btn-secondary">
+        <button class="btn btn-secondary" @click="saveForm">
           暫存
-        </router-link>
+        </button>
       </div>
       <div>
-        <router-link to="/successful" class="btn btn-danger">
+        <button class="btn btn-danger" @click="saveForm">
           完成送出
-        </router-link>
+        </button>
       </div>
     </div>
   </div>
@@ -39,6 +39,7 @@ import Personal from '@/components/PersonalInformation.vue';
 import Longevity from '@/components/Longevity.vue';
 import Ceremony from '@/components/Ceremony.vue';
 import PrayFor from '@/components/PrayFor.vue';
+import FormApi from '@/apis/FormApi';
 
 export default Vue.extend({
   components: {
@@ -52,6 +53,13 @@ export default Vue.extend({
       checkMode: true,
       // form: new CeremonyForm(),
     };
+  },
+  methods: {
+    saveForm() {
+      FormApi.save().then(() => {
+        this.$router.push('/successful');
+      });
+    },
   },
 });
 </script>

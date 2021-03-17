@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h1>This is Login page</h1>
-    <div id="firebaseui-auth-container"></div>
+    <div id="firebaseui-auth-container" />
   </div>
 </template>
 
@@ -19,9 +19,6 @@ export default Vue.extend({
   data() {
     return {
     };
-  },
-  methods: {
-
   },
   mounted() {
     if (firebase.auth().currentUser) {
@@ -69,6 +66,9 @@ export default Vue.extend({
       ],
       // Other config options...
     });
+  },
+  methods: {
+
   },
 });
 </script>
