@@ -1,7 +1,13 @@
 <template>
-  <div class="login">
-    <h1>This is Login page</h1>
-    <div id="firebaseui-auth-container" />
+  <div class="login-page">
+    <div class="container">
+      <div class="login-block">
+        <div v-if="!openRegister" class="content">
+          <h2>會員登入</h2>
+          <div id="firebaseui-auth-container" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,3 +78,36 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style scoped lang="scss">
+.login-page{
+  // background: #fff url("../assets/123.jpg") no-repeat;
+  // background-size: cover;
+  min-height: calc(100vh - 44px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#000;
+  .login-block{
+    max-width: 600px;
+    min-height: 500px;
+    border: rgba(119, 119, 119, 0.4) 2px solid;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .content{
+      padding: 20px;
+      width: 400px;
+      h2{
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #aaa;
+        color: #777;
+      }
+    }
+  }
+}
+</style>
