@@ -3,10 +3,11 @@ import Vuex from 'vuex';
 import {
   AttendInfo, LongevityBoard, PersonalInformation, PrayBoards,
 } from '@/models/CeremonyFormModel';
+import UserStatus from '@/models/UserStatusModel';
 
 Vue.use(Vuex);
 const getDefaultState = () => ({
-
+  userStatus: new UserStatus(),
   personalInformation: new PersonalInformation(),
   longevity: [] as LongevityBoard[],
   prayFor: [] as PrayBoards[],
@@ -16,6 +17,9 @@ const getDefaultState = () => ({
 export default new Vuex.Store({
   state: getDefaultState(),
   mutations: {
+    updateUserStatus(state, userStatus) {
+      state.userStatus = userStatus;
+    },
     updatePersonalInformation(state, object) {
       state.personalInformation = object;
     },

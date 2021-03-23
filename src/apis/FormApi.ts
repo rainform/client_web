@@ -1,24 +1,16 @@
 import firebase from 'firebase';
 import store from '@/store';
 import Utils from '@/libs/Utils';
+import FireBaseUtils from '@/libs/FirebaseUtils';
 
 export default class FormApi {
-  // no use
-  static async create(formContent: object): Promise<firebase.firestore.DocumentReference<firebase.firestore.DocumentData>> {
+  /**
+   * @description upload form document in vuex store to firestore
+   *
+   */
+  static async save(isSubmitted = false): Promise<void> {
     const db = firebase.firestore();
-    const docRef = await db.collection('forms').add(formContent);
-    return docRef;
-  }
-
-  static async save(): Promise<void> {
-    const db = firebase.firestore();
-    const user = firebase.auth().currentUser;
-
-    if (!user) {
-      // No user is signed in.
-      // TODO: redirect user to login page
-      throw new Error();
-    }
+    const user = FireBaseUtils.safeGetUser();
 
     const formContent = {
       owner: user.uid,
@@ -26,52 +18,24 @@ export default class FormApi {
       longevity: Utils.toObject(store.state.longevity),
       prayFor: Utils.toObject(store.state.prayFor),
       ceremony: Utils.toObject(store.state.ceremony),
+      isSubmitted,
+      submitTime: new Date().toISOString(),
     };
 
-    // User is signed in.'
     const formId = user.uid;
     await db.collection('forms').doc(formId).set(formContent);
   }
 
-  static async merge(formId: string, formContent: object): Promise<void> {
-    // pass
-  }
-
   /**
+   * @description get form document from firestore for current login user, then load the document into vuex store
    *
-   * @returns look https://firebase.google.com/docs/reference/js/firebase.firestore.DocumentSnapshot?authuser=0
-   */
-  static async get(): Promise<firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>> {
-    const db = firebase.firestore();
-    const user = firebase.auth().currentUser;
-
-    if (!user) {
-      // No user is signed in.
-      // TODO: redirect user to login page
-      throw new Error();
-    }
-
-    // User is signed in.'
-    const formId = user.uid;
-    const docSnp = await db.collection('forms').doc(formId).get();
-    return docSnp;
-  }
-
-  /**
-   *
-   * @returns look https://firebase.google.com/docs/reference/js/firebase.firestore.DocumentSnapshot?authuser=0
+   * the result object obtained by get() is DocumentSnapshot
+   * (@see https://firebase.google.com/docs/reference/js/firebase.firestore.DocumentSnapshot?authuser=0)
    */
   static async load(): Promise<void> {
     const db = firebase.firestore();
-    const user = firebase.auth().currentUser;
+    const user = FireBaseUtils.safeGetUser();
 
-    if (!user) {
-      // No user is signed in.
-      // TODO: redirect user to login page
-      throw new Error();
-    }
-
-    // User is signed in.'
     const formId = user.uid;
     const docSnp = await db.collection('forms').doc(formId).get();
     const doc = docSnp.data();
@@ -83,8 +47,4 @@ export default class FormApi {
       store.commit('updateCeremony', doc.ceremony);
     }
   }
-
-  // static async makeCopy(formId: string): Promise<firebase.firestore.DocumentReference<firebase.firestore.DocumentData>> {
-  //   // pass
-  // }
 }

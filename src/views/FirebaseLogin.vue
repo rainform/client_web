@@ -19,6 +19,7 @@ import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
 import UserApi from '@/apis/UserApi';
+import UserStatus from '@/models/UserStatusModel';
 
 export default Vue.extend({
   name: 'Login',
@@ -32,6 +33,8 @@ export default Vue.extend({
       this.$router.push(this.$store.state.homepageRoute);
     }
 
+    const store = this.$store;
+
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
     ui.start('#firebaseui-auth-container', {
       callbacks: {
@@ -43,12 +46,14 @@ export default Vue.extend({
               // init user data
               console.log('new user');
 
-              UserApi.initUser(authResult.user);
+              store.commit('updateUserStatus', new UserStatus());
+
+              UserApi.save();
             } else {
               console.log('old user');
             }
             // fetch user data
-            UserApi.get(authResult.user.uid);
+            UserApi.load();
           }
 
           // User successfully signed in.
