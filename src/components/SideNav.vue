@@ -32,7 +32,7 @@
         </li>
       </ul>
     </div>
-    <div class="side-nav-block" />
+    <!-- <div class="side-nav-block" /> -->
   </div>
 </template>
 

@@ -38,7 +38,7 @@
         </div>
         <div class="input-group">
           <label for="personal_informMethod">下次活動通知方式</label>
-          <select id="personal_informMethod" v-model="personal[0].informMethod">
+          <select id="personal_informMethod" v-model="personal.informMethod">
             <option value="" style="display:none">
               請選擇
             </option>
