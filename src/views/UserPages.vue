@@ -20,7 +20,6 @@ export default Vue.extend({
   },
   methods: {
     logout() {
-      console.log('logout');
       firebase.auth().signOut();
       this.$router.push('/');
     },

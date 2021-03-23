@@ -11,8 +11,8 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/',
-    name: 'LoginPage',
-    component: () => import('../views/LoginPage.vue'),
+    name: 'FirebaseLogin',
+    component: () => import('../views/FirebaseLogin.vue'),
   },
   {
     path: '/userpages',
@@ -62,11 +62,6 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/Successful.vue'),
       },
     ],
-  },
-  {
-    path: '/firebaseLogin',
-    name: 'FirebaseLogin',
-    component: () => import('@/views/FirebaseLogin.vue'),
   },
 ];
 

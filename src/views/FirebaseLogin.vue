@@ -2,7 +2,7 @@
   <div class="login-page">
     <div class="container">
       <div class="login-block">
-        <div v-if="!openRegister" class="content">
+        <div class="content">
           <h2>會員登入</h2>
           <div id="firebaseui-auth-container" />
         </div>
@@ -20,6 +20,7 @@ import 'firebaseui/dist/firebaseui.css';
 
 import UserApi from '@/apis/UserApi';
 import UserStatus from '@/models/UserStatusModel';
+import FormApi from '@/apis/FormApi';
 
 export default Vue.extend({
   name: 'Login',
@@ -39,21 +40,16 @@ export default Vue.extend({
     ui.start('#firebaseui-auth-container', {
       callbacks: {
         signInSuccessWithAuthResult(authResult) {
-          console.log(authResult);
+          // console.log(authResult);
 
           if (authResult) {
             if (authResult.additionalUserInfo.isNewUser) {
               // init user data
-              console.log('new user');
 
               store.commit('updateUserStatus', new UserStatus());
 
               UserApi.save();
-            } else {
-              console.log('old user');
             }
-            // fetch user data
-            UserApi.load();
           }
 
           // User successfully signed in.
