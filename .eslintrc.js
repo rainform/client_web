@@ -17,6 +17,7 @@ module.exports = {
     'linebreak-style': 'off',
     'max-len': 'off',
     'vue/max-attributes-per-line': 'off',
+    'no-param-reassign': 'off',
   },
   overrides: [
     {

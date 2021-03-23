@@ -1,6 +1,8 @@
 <template>
   <div class="ceremony" :class="{'checkMode': checkMode}">
-    <h2><span>STEP4</span> 法會參加登記</h2>
+    <h2>
+      <span>STEP4</span> 法會參加登記
+    </h2>
 
     <div class="container">
       <form v-if="checkMode === false">
@@ -20,7 +22,8 @@
                 請選擇
               </option>
               <option v-for="(selection, index) in genderSelection" :key="index" :value="selection">
-                {{ selection }}
+                <span v-if="selection === 'male'">男性</span>
+                <span v-if="selection === 'female'">女性</span>
               </option>
             </select>
           </div>
@@ -124,14 +127,14 @@ export default Vue.extend({
         new AttendInfo('', '', '', '', '', ''),
       ],
       genderSelection: [
-        '男',
-        '女',
+        'male',
+        'female',
       ],
       notRegistered: false,
       lastYearData: [
       //   {
       //     name: '王曉明',
-      //     gender: '男',
+      //     gender: 'male',
       //     age: '36',
       //     attendDate: '',
       //     leaveDate: '',

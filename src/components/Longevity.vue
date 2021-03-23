@@ -31,7 +31,7 @@
       <div v-if="checkMode === true" class="check-area">
         <label v-if="longevityX.length > 0 && longevityX[0].name !== ''">長生祿位</label>
         <label v-if="longevityX.length > 0 && longevityX[0].name === ''">不登記</label>
-        <div class="list">
+        <div v-if="longevityX.length > 0 && longevityX[0].name !== ''" class="list">
           <div v-for="(item, key) in longevityX" :key="key">
             <p>
               {{ item.name }}

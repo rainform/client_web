@@ -9,6 +9,7 @@ export interface PersonalInformationModel {
   email: string;
   line: string;
   wechat: string;
+  informMethod: string;
 }
 
 export interface LongevityBoardModel {
@@ -55,7 +56,9 @@ export class PersonalInformation implements PersonalInformationModel {
 
   wechat: string;
 
-  constructor(name: string, address: string, phone: string, telephone: string, email: string, line: string, wechat: string) {
+  informMethod: string;
+
+  constructor(name: string, address: string, phone: string, telephone: string, email: string, line: string, wechat: string, informMethod: string) {
     this.name = name;
     this.address = address;
     this.phone = phone;
@@ -63,6 +66,7 @@ export class PersonalInformation implements PersonalInformationModel {
     this.email = email;
     this.line = line;
     this.wechat = wechat;
+    this.informMethod = informMethod;
   }
 }
 
@@ -124,7 +128,7 @@ export class CeremonyForm implements CeremonyFormModel {
   AttendInfoList: AttendInfoModel[];
 
   constructor() {
-    this.personalInformation = new PersonalInformation('', '', '', '', '', '', '');
+    this.personalInformation = new PersonalInformation('', '', '', '', '', '', '', '');
     this.longevityBoards = [
       new LongevityBoard('peoplename'),
     ];

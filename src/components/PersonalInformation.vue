@@ -36,6 +36,17 @@
           <label for="personal_wechat">Wechat</label>
           <input id="personal_wechat" v-model="personal[0].wechat" type="text" placeholder="請填寫您的Wechat">
         </div>
+        <div class="input-group">
+          <label for="personal_informMethod">下次活動通知方式</label>
+          <select id="personal_informMethod" v-model="personal[0].informMethod">
+            <option value="" style="display:none">
+              請選擇
+            </option>
+            <option v-for="(method, index) in informMethod" :key="index" :value="method+'通知'">
+              {{ method }}
+            </option>
+          </select>
+        </div>
       </form>
 
       <form v-if="checkMode === true">
@@ -82,6 +93,12 @@
               {{ item.wechat }}
             </p>
           </div>
+          <div class="input-group">
+            <label for="personal_informMethod">下次活動通知方式</label>
+            <p>
+              {{ item.informMethod }}
+            </p>
+          </div>
         </div>
       </form>
 
@@ -118,7 +135,14 @@ export default Vue.extend({
   data() {
     return {
       personal: [
-        new PersonalInformation('', '', '', '', '', '', ''),
+        new PersonalInformation('', '', '', '', '', '', '', ''),
+      ],
+      informMethod: [
+        '手機簡訊',
+        'E-mail信箱',
+        'Line群組',
+        'Wechat群組',
+        '郵寄紙本',
       ],
       lastYearData: [
       //   {
@@ -187,7 +211,7 @@ $remind: rgb(204, 0, 0);
         text-align: left;
         font-weight: 700;
       }
-      input{
+      input, select{
         width: 100%;
         border: 0;
         background-color: #eee;
@@ -197,14 +221,9 @@ $remind: rgb(204, 0, 0);
           outline: none;
         }
       }
-    }
-  }
-  .check-area{
-    label{
-      width: 100%;
-      margin-bottom: 10px;
-      text-align: left;
-      font-weight: 700;
+      select{
+        padding: 5px 10px;
+      }
     }
   }
 }

@@ -33,35 +33,6 @@
       </ul>
     </div>
     <div class="side-nav-block" />
-    <!-- <div class="sidebar">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <router-link to="personalInformation" class="nav-link after">
-            STEP1 個人基本資料
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="longevity" class="nav-link after">
-            STEP2 長生祿位登記
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="prayFor" class="nav-link after">
-            STEP3 往生蓮位登記
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="ceremony" class="nav-link after">
-            STEP4 法會參加登記
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="checkForm" class="nav-link after">
-            STEP5 確認完整資料
-          </router-link>
-        </li>
-      </ul>
-    </div> -->
   </div>
 </template>
 
@@ -109,10 +80,10 @@ i {
     font-weight: 600;
     line-height: 24px;
     padding-left: 15px;
-    cursor: pointer;
-    &:hover {
-      background-color: #e3e3e3;
-    }
+    // cursor: pointer;
+    // &:hover {
+    //   background-color: #e3e3e3;
+    // }
   }
 
   .sidebar {
@@ -127,11 +98,6 @@ i {
         .fas {
           padding-right: 10px;
         }
-        // &:hover {
-        //   background: #aa999a;
-        //   color: #fff;
-        //   cursor: pointer;
-        // }
       }
     }
     .active{
